@@ -1,4 +1,6 @@
 FROM openjdk:18-jdk-alpine
-COPY target/appcds-0.0.1-SNAPSHOT.jar /opt/appcds.jar
+COPY appcds*.jar /opt/appcds.jar
+COPY appcds*.jar.original /opt/appcds.jar.original
 WORKDIR /opt
-ENTRYPOINT ["java", "-jar", "/opt/appcds.jar"]
+RUN ["/bin/sh", "-c", "jar -xf appcds.jar"]
+ENTRYPOINT ["/bin/sh", "-c", "java -cp appcds.jar.original:BOOT-INF/lib/* com.bojug.appcds.AppcdsApplication"]
